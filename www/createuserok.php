@@ -14,7 +14,7 @@ if (!array_key_exists('gn', $_REQUEST)
     );
 }
 
-$user_id_attribute = 'schacPersonalUniqueID';
+$user_id_attribute = 'CPR';
 
 $stateId = $_REQUEST['stateId'];
 $gn = $_REQUEST['gn'];
@@ -22,20 +22,17 @@ $sn = $_REQUEST['sn'];
 $mail = $_REQUEST['mail'];
 
 $state = SimpleSAML_Auth_State::loadState($stateId, 'GoAnywhere:createuser');
-
-$ga_user_url = 'https://ga-mft-test-01.kb.dk:8001/goanywhere/rest/gacmd/v1/webusers';
-$ga_admin_user = 'dgj';
-$ga_admin_user_pw = 'JollyJ3aar';
-
+$ga_user_url = $state['GoAnywhere:user_url'];
+$ga_admin_user = $state['GoAnywhere:ga_admin_user'];
+$ga_admin_user_pw = $state['GoAnywhere:ga_admin_user_pw'];
+$template = $state['GoAnywhere:ga_webuser_template'];
 $userId = $state['Attributes'][$user_id_attribute][0];
 
 $userJSON = '{"addParameters" : { "userName":"'.$userId.'",'.
-                                '"template" : "testTemplate",'.
+                                '"template" : "'.$template.'",'.
                                 '"firstName" : "'.$gn.'",'.
                                 '"lastName" : "'.$sn.'",'.
                                 '"email" : "'.$mail.'"}}';
-                
-
 $curl = curl_init();
 curl_setopt_array($curl, array(
                         CURLOPT_RETURNTRANSFER => true,
@@ -60,14 +57,11 @@ if (curl_errno($curl)) {
 }
 
 $info = curl_getinfo($curl);
-if ($info['http_code'] !== 200) {
+if ($info['http_code'] !== 201) {
 	//log error
         throw new SimpleSAML_Error_BadRequest(
-                'Missing required StateId query parameter.'
+                'Missing required StateId query parameter.'.var_export($info,true)
     );
 
 }
-
-
 SimpleSAML_Auth_ProcessingChain::resumeProcessing($state);
-

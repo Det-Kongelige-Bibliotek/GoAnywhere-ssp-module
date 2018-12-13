@@ -2,32 +2,63 @@
 
 class sspmod_GoAnywhere_Auth_Process_GoAnywhere extends SimpleSAML_Auth_ProcessingFilter 
 {
-	private $ga_user_url = 'https://ga-mft-test-01.kb.dk:8001/goanywhere/rest/gacmd/v1/webusers';
-	private $ga_admin_user = 'dgj';
-	private $ga_admin_user_pw = 'JollyJ3aar';
-	
-	private $user_id_attribute = 'schacPersonalUniqueID';
+	private $ga_user_url = null;
+	private $ga_admin_user = null;
+	private $ga_admin_user_pw = null;
+	private $ga_webuser_template = null;
+	private $user_id_attribute = 'CPR';
+	private $ask_user = true;
 
 
 	function __construct($config, $reserved) {
-	
+		if (!array_key_exists('ga_user_url',$config)) {
+			throw new ConfigError('Missing GoAnywhere parameter ga_user_url');
+		}
+		$this->ga_user_url = $config['ga_user_url'];
+		if (!array_key_exists('ga_admin_user',$config)) {
+                        throw new ConfigError('Missing GoAnywhere parameter ga_admin_user');
+                }
+		$this->ga_admin_user = $config['ga_admin_user'];
+		if (!array_key_exists('ga_admin_user_pw',$config)) {
+                        throw new ConfigError('Missing GoAnywhere parameter ga_admin_user_pw');
+                }
+		$this->ga_admin_user_pw = $config['ga_admin_user_pw'];
+		if (!array_key_exists('ga_webuser_template',$config)) {
+                        throw new ConfigError('Missing GoAnywhere parameter ga_admin_user_pw');
+                }
+		$this->ga_webuser_template = $config['ga_webuser_template'];
+
+		if (array_key_exists('ask_user',$config)) {
+			$this->ask_user = $config['ask_user'];
+		}
 	}
 	
-	public function process(&$state) {	
+	public function process(&$state) {
 		$attributes = $state['Attributes'];
 		$id = $attributes[$this->user_id_attribute][0];
 		if ($this->checkGAUserExist($id)) {
 			return;
 		}
+		$state['GoAnywhere:user_url'] = $this->ga_user_url;
+                $state['GoAnywhere:ga_admin_user'] = $this->ga_admin_user;
+                $state['GoAnywhere:ga_admin_user_pw'] = $this->ga_admin_user_pw;
+		$state['GoAnywhere:ask_user'] = $this->ask_user;
+		
+
+		if (array_key_exists('GoAnywhere:ga_webuser_template',$state['saml:sp:State']) 
+			|| $state['saml:sp:State']['GoAnywhere:ga_webuser_template'] !== null) {
+			$state['GoAnywhere:ga_webuser_template'] = $state['saml:sp:State']['GoAnywhere:ga_webuser_template'];
+		} else {
+			$state['GoAnywhere:ga_webuser_template'] = $this->ga_webuser_template;
+		}
 		$stateId = SimpleSAML_Auth_State::saveState($state, 'GoAnywhere:createuser');
         	$url = SimpleSAML\Module::getModuleURL('GoAnywhere/createuser.php');
-        	\SimpleSAML\Utils\HTTP::redirectTrustedURL($url, array('StateId' => $stateId));
+        	\SimpleSAML\Utils\HTTP::redirectTrustedURL($url, array('StateId' => $stateId));	
 
 	}
 
 	public function checkGAUserExist($userId) {
                 $curl = curl_init();
-                echo $this->ga_user_url.'/'.$userId."\n";
                 curl_setopt_array($curl, array(
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_URL => $this->ga_user_url.'/'.$userId,
