@@ -7,7 +7,7 @@
 	<title>Opret Upload Bruger</title>	
 	<script>
 		function checkAccept(theForm) {
-			if (theForm.acceptbox.checked) {
+			if (theForm.acceptbox.checked == true) {
 				return true;
 			}
 			alert("Du skal acceptere for at kunne fortsætte");
@@ -27,7 +27,7 @@
 		</div>
 	</header>
 	
-<form id="creatuserform" onSubmit="checkAccept(this)" action="<?php echo htmlspecialchars($this->data['yesTarget']); ?>">
+<form id="creatuserform" onsubmit="return checkAccept(this);" action="<?php echo htmlspecialchars($this->data['yesTarget']); ?>">
 	
  	<div class="grid-container">
     		<div class="grid-x grid-margin-x grid-margin-y">

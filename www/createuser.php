@@ -14,8 +14,6 @@ $state = SimpleSAML_Auth_State::loadState($stateId, 'GoAnywhere:createuser');
 $attributes = $state['Attributes'];
 
 SimpleSAML\Logger::info('createuser GA attributes'.var_export($attributes,true));
-SimpleSAML\Logger::info('createuser GA state'.var_export($attributes,true));
-
                 
 $gn = '';
 if (array_key_exists('urn:oid:2.5.4.42',$attributes) && count($attributes['urn:oid:2.5.4.42'])>0) {
