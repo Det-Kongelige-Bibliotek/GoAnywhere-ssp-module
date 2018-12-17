@@ -6,7 +6,7 @@ class sspmod_GoAnywhere_Auth_Process_GoAnywhere extends SimpleSAML_Auth_Processi
 	private $ga_admin_user = null;
 	private $ga_admin_user_pw = null;
 	private $ga_webuser_template = null;
-	private $user_id_attribute = 'CPR';
+	private $user_id_attribute = 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6';
 	private $ask_user = true;
 
 
