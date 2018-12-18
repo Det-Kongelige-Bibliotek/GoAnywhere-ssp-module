@@ -19,7 +19,7 @@ if (!array_key_exists('gn', $_REQUEST)
     );
 }
 
-$user_id_attribute = 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6';
+$user_id_attribute = 'GAID';
 
 $stateId = $_REQUEST['stateId'];
 $gn = $_REQUEST['gn'];
