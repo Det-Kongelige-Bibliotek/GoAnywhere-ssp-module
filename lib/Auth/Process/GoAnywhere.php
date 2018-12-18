@@ -46,7 +46,7 @@ class sspmod_GoAnywhere_Auth_Process_GoAnywhere extends SimpleSAML_Auth_Processi
 		
 
 		if (array_key_exists('GoAnywhere:ga_webuser_template',$state['saml:sp:State']) 
-			|| $state['saml:sp:State']['GoAnywhere:ga_webuser_template'] !== null) {
+			&& ($state['saml:sp:State']['GoAnywhere:ga_webuser_template'] !== null)) {
 			$state['GoAnywhere:ga_webuser_template'] = $state['saml:sp:State']['GoAnywhere:ga_webuser_template'];
 		} else {
 			$state['GoAnywhere:ga_webuser_template'] = $this->ga_webuser_template;
