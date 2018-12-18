@@ -10,10 +10,11 @@ class sspmod_GoAnywhere_Auth_Process_GenerateGAID extends  SimpleSAML_Auth_Proce
         
         public function process(&$state) {      
                 $attributes = $state['Attributes'];
-		if (array_key_exists($user_id_attributes,$attributes) && $attributes[$user_id_attribute] != null
-			&& is_array($attributes[$user_id_attribute]) && count($attributes[$user_id_attribute]) > 0) {
-			$id = $attributes[$this->user_id_attribute][0];
-                	$state['Attributes']['GAID'] = Array(preg_replace('/[\/\\\:\*\?\"\<\>|]/', '', $id));
-		}
+		if (array_key_exists($this->user_id_attribute,$attributes) && $attributes[$this->user_id_attribute] != null
+                        && is_array($attributes[$this->user_id_attribute]) && count($attributes[$this->user_id_attribute]) > 0) {
+                        $id = $attributes[$this->user_id_attribute][0];
+                        $state['Attributes']['GAID'][0] = preg_replace('/[\/\\\:\*\?\"\<\>|]/', '', $id);
+                }
+
         }
 }
