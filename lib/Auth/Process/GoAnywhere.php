@@ -61,7 +61,7 @@ class sspmod_GoAnywhere_Auth_Process_GoAnywhere extends SimpleSAML_Auth_Processi
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
                         CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_URL => $this->ga_user_url.'/'.$userId,
+                        CURLOPT_URL => $this->ga_user_url.'/'.preg_replace('/[\/\\\:\*\?\"\<\>|]/', '', $userId),
                         CURLOPT_USERPWD => $this->ga_admin_user . ":" . $this->ga_admin_user_pw,
                         CURLOPT_HEADER => true,
                         CURLOPT_NOBODY => true,
