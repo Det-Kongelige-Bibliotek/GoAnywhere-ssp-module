@@ -6,7 +6,11 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo SimpleSAML\Module::getModuleURL('GoAnywhere/css/styles.css')?>" />
 	<title>Opret Upload Bruger</title>	
 	<script>
-		function checkAccept(theForm) {
+		function checkForm(theForm) {
+			if (theForm.mail.value === '') {
+				alert("Angiv venligst en email-addresse");
+				return false;
+			}
 			if (theForm.acceptbox.checked == true) {
 				return true;
 			}
@@ -27,7 +31,7 @@
 		</div>
 	</header>
 	
-<form id="creatuserform" onsubmit="return checkAccept(this);" action="<?php echo htmlspecialchars($this->data['yesTarget']); ?>">
+<form id="creatuserform" onsubmit="return checkForm(this);" action="<?php echo htmlspecialchars($this->data['yesTarget']); ?>">
 	
  	<div class="grid-container">
     		<div class="grid-x grid-margin-x grid-margin-y">
@@ -57,7 +61,7 @@
                 			</div>
         			</div>
 				<p>
-Vi behandler personlige oplysninger i henhold til privtlivs- og persondatapolitik for Det Kgl. Bibliotek. Derudover behandler vi specifikt persondata om din mailadresse og dit navn, som bevares i vores brugerdatabase efter du har oprettet dig. Disse personoplysninger er nødvendige at indsamle for at du kan anvender hjemmesidens funktioner.
+Vi behandler personlige oplysninger i henhold til <a href="http://www.kb.dk/da/kb/webstedet/cookiepolitik.html" target="_new">privatlivs- og persondatapolitik for Det Kgl. Bibliotek</a>. Derudover behandler vi specifikt persondata om din mailadresse og dit navn, som bevares i vores brugerdatabase efter du har oprettet dig. Disse personoplysninger er nødvendige at indsamle for at du kan anvende hjemmesidens funktioner.
 				</p>
 				<!--div class="atom-e7937846-48b1-4797-9eb4-8cd4837fc421"-->
 					<input type="checkbox" id="acceptbox" name="acceptbox">
