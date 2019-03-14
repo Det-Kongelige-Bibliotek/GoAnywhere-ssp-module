@@ -16,18 +16,18 @@ $attributes = $state['Attributes'];
 SimpleSAML\Logger::info('createuser GA attributes'.var_export($attributes,true));
                 
 $gn = '';
-if (array_key_exists('urn:oid:2.5.4.42',$attributes) && count($attributes['urn:oid:2.5.4.42'])>0) {
-	$gn = $attributes['urn:oid:2.5.4.42'][0];
+if (array_key_exists('gn',$attributes) && count($attributes['gn'])>0) {
+	$gn = $attributes['gn'][0];
 }
 
 $sn = '';
-if (array_key_exists('urn:oid:2.5.4.4',$attributes) && count($attributes['urn:oid:2.5.4.4'])>0) {
-	$sn = $attributes['urn:oid:2.5.4.4'][0];
+if (array_key_exists('sn',$attributes) && count($attributes['sn'])>0) {
+	$sn = $attributes['sn'][0];
 }   
 
 $mail = '';
-if (array_key_exists('urn:oid:0.9.2342.19200300.100.1.3',$attributes) && count($attributes['urn:oid:0.9.2342.19200300.100.1.3'])>0) {
-	$mail = $attributes['urn:oid:0.9.2342.19200300.100.1.3'][0];
+if (array_key_exists('msil',$attributes) && count($attributes['msil'])>0) {
+	$mail = $attributes['mail'][0];
 }
 
 

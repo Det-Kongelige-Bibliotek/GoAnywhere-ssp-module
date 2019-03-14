@@ -2,7 +2,7 @@
 class sspmod_GoAnywhere_Auth_Process_GenerateGAID extends  SimpleSAML_Auth_ProcessingFilter 
 {
 
-	private $user_id_attribute = 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6';
+	private $user_id_attribute = 'eduPersonPrincipalName';
 
         function __construct($config, $reserved) {
         
